@@ -13,7 +13,7 @@ const InvoiceSchema = z.object({
 })
 
 const CreateInvoice = InvoiceSchema.omit({ id: true, date: true })
-const UpdateInvoice = InvoiceSchema.omit({ date: true })
+const UpdateInvoice = InvoiceSchema.omit({ date: true });
 const DeleteInvoice = InvoiceSchema.pick({ id: true })
 
 export async function createInvoice(formData: FormData) {
@@ -40,18 +40,18 @@ export async function updateInvoice(formData: FormData) {
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
-  })
-
-  const amountInCents = amount * 100
-
+  });
+ 
+  const amountInCents = amount * 100;
+ 
   await sql`
     UPDATE invoices
     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
     WHERE id = ${id}
-  `
-
-  revalidatePath('/dashboard/invoices')
-  redirect('/dashboard/invoices')
+  `;
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
 
 export async function deleteInvoice(formData: FormData) {
